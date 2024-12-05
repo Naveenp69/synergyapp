@@ -1,0 +1,7 @@
+flask
+pubchempy
+retry
+pandas
+biopython
+rdkit-pypi
+
