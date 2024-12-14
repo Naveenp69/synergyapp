@@ -1,0 +1,59 @@
+# Byte-compiled files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.sqlite3
+
+# Environment variables
+.env
+*.env
+
+# Virtual environments
+venv/
+ENV/
+env/
+
+# Logs and debugging files
+*.log
+*.out
+*.err
+logs/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Static files and uploads
+static/media/*
+!static/media/logo.png  # Keep the logo file in the repository
+static/cadd_images/
+
+# Python packaging
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Deployment-specific files
+*.bak
+*.conf
+*.pem
+*.key
+
+# Node and frontend (if applicable)
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# RDKit and dependencies
+rdkit_build/
