@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PubMed Article Scraper</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">PubMed Article Scraper</h1>
+        <form method="POST" class="mt-4">
+            <div class="mb-3">
+                <label for="query" class="form-label">Search Query:</label>
+                <input type="text" class="form-control" id="query" name="query" 
+                       value="{{ query }}" {% if use_default_query %} disabled {% endif %} required>
+            </div>
+            <div class="mb-3">
+                <label for="use_default_query" class="form-label">Use default query:</label>
+                <input type="checkbox" id="use_default_query" name="use_default_query" 
+                       {% if use_default_query %} checked {% endif %}>
+            </div>
+            <div class="mb-3">
+                <label for="start_date" class="form-label">Start Date:</label>
+                <input type="date" class="form-control" id="start_date" name="start_date" required>
+            </div>
+            <div class="mb-3">
+                <label for="end_date" class="form-label">End Date:</label>
+                <input type="date" class="form-control" id="end_date" name="end_date" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a href="/" class="btn btn-secondary">Home</a>
+        </form>
+        
+
+        {% if error %}
+            <div class="alert alert-danger mt-3">{{ error }}</div>
+        {% endif %}
+
+        {% if articles %}
+            <h2 class="mt-5">Articles</h2>
+            <table class="table table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Authors</th>
+                        <th>Journal</th>
+                        <th>Volume</th>
+                        <th>Issue</th>
+                        <th>Pages</th>
+                        <th>Published Date</th>
+                        <th>Publisher</th>
+                        <th>ISSN</th>
+                        <th>PMID</th>
+                        <th>DOI</th>
+                        <th>URL</th>
+                        <th>Abstract</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for article in articles %}
+                    <tr>
+                        <td>{{ article["Title"] }}</td>
+                        <td>{{ article["Authors"] }}</td>
+                        <td>{{ article["Journal"] }}</td>
+                        <td>{{ article["Volume"] }}</td>
+                        <td>{{ article["Issue"] }}</td>
+                        <td>{{ article["Pages"] }}</td>
+                        <td>{{ article["Published Date"] }}</td>
+                        <td>{{ article["Publisher"] }}</td>
+                        <td>{{ article["ISSN"] }}</td>
+                        <td>{{ article["PMID"] }}</td>
+                        <td>{{ article["DOI"] }}</td>
+                        <td><a href="{{ article["URLs"] }}" target="_blank">View Article</a></td>
+                        <td>{{ article["Abstract"] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="/download/articles.xlsx" class="btn btn-success mt-3">Download Results</a>
+        {% endif %}
+    </div>
+    <script>
+        document.getElementById('use_default_query').addEventListener('change', function () {
+            const queryInput = document.getElementById('query');
+            if (this.checked) {
+                // Use JSON encoding to safely pass the value
+                queryInput.value = JSON.parse('{{ DEFAULT_QUERY | tojson | safe }}');
+                queryInput.disabled = true;
+            } else {
+                queryInput.value = "";
+                queryInput.disabled = false;
+            }
+        });
+    
+        // Trigger the checkbox change event on page load if the checkbox is already checked
+        if (document.getElementById('use_default_query').checked) {
+            document.getElementById('use_default_query').dispatchEvent(new Event('change'));
+        }
+    </script>
+    
+    
+</body>
+</html>

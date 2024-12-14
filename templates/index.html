@@ -3,145 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ingredient Synergy Search</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Arial', sans-serif;
-        }
-
-        h1 {
-            color: #4a90e2;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        .table-container {
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            padding: 20px;
-        }
-
-        .table {
-            margin-bottom: 0;
-        }
-
-        .table th {
-            background-color: #4a90e2;
-            color: #fff;
-            text-transform: uppercase;
-            font-size: 14px;
-        }
-
-        .table td, .table th {
-            vertical-align: middle;
-            text-align: center;
-            font-size: 13px;
-        }
-
-        .table img {
-            border-radius: 8px;
-            transition: transform 0.2s ease-in-out;
-        }
-
-        .table img:hover {
-            transform: scale(1.1);
-        }
-
-        .btn-custom {
-            background: linear-gradient(to right, #4a90e2, #5cb85c);
-            color: #fff;
-            border: none;
-            transition: background 0.3s ease;
-        }
-
-        .btn-custom:hover {
-            background: linear-gradient(to right, #5cb85c, #4a90e2);
-        }
-
-        .table-responsive {
-            overflow-x: auto;
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 24px;
-            }
-
-            .table img {
-                width: 70px;
-            }
-        }
-    </style>
+    <title>Module Selector</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="text-center mb-4">Ingredient Synergy Search</h1>
-        <div class="table-container">
-            <form method="POST" class="mb-4">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label for="ingredient1" class="form-label">Ingredient 1</label>
-                        <input type="text" class="form-control" id="ingredient1" name="ingredient1" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="ingredient2" class="form-label">Ingredient 2</label>
-                        <input type="text" class="form-control" id="ingredient2" name="ingredient2" required>
-                    </div>
-                </div>
-                <div class="text-center mt-3">
-                    <button type="submit" class="btn btn-custom px-4 py-2">Analyze</button>
-                </div>
-            </form>
-
-            {% if results %}
-                <h2 class="text-center mb-4">Results</h2>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>Ingredient 1</th>
-                                <th>Ingredient 2</th>
-                                <th>PubMed IDs</th>
-                                <th>PubMed Titles</th>
-                                <th>Individual Effects</th>
-                                <th>Synergy Effects</th>
-                                <th>Binding Affinity</th>
-                                <th>Agonistic/Antagonistic</th>
-                                <th>Remarks</th>
-                                <th>CADD Analytics Image (1)</th>
-                                <th>CADD Analytics Image (2)</th>
-                                <th>Synergy Image</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for result in results %}
-                                <tr>
-                                    <td>{{ result["Ingredient 1"] }}</td>
-                                    <td>{{ result["Ingredient 2"] }}</td>
-                                    <td>{{ result["PubMed IDs"] }}</td>
-                                    <td>{{ result["PubMed Titles"] }}</td>
-                                    <td>{{ result["Individual Effects"] }}</td>
-                                    <td>{{ result["Synergy Effects"] }}</td>
-                                    <td>{{ result["Binding Affinity"] }}</td>
-                                    <td>{{ result["Interaction"] }}</td>
-                                    <td>{{ result["Remarks"] }}</td>
-                                    <td><img src="{{ result["CADD Analytics Image 1"] }}" class="img-fluid" alt="CADD 1"></td>
-                                    <td><img src="{{ result["CADD Analytics Image 2"] }}" class="img-fluid" alt="CADD 2"></td>
-                                    <td><img src="{{ result["Synergy Image"] }}" class="img-fluid" alt="Synergy"></td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <div class="text-center mt-4">
-                    <a href="/download/{{ download_link }}" class="btn btn-custom px-4 py-2">Download Results</a>
-                </div>
-            {% elif error %}
-                <p class="text-danger text-center">{{ error }}</p>
-            {% endif %}
+        <h1 class="text-center">Welcome to the Module Selector</h1>
+        <p class="text-center mt-3">Choose a module to proceed:</p>
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-4 text-center">
+                <a href="/cadd" class="btn btn-primary btn-lg w-100">CADD Synergy Analysis</a>
+                <p class="mt-2">Analyze compound interactions and generate CADD insights.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <a href="/pubmed" class="btn btn-secondary btn-lg w-100">PubMed Article Scraper</a>
+                <p class="mt-2">Scrape PubMed articles based on your queries and date range.</p>
+            </div>
         </div>
     </div>
 </body>

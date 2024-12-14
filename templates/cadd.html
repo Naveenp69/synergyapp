@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CADD Synergy Analysis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">CADD Synergy Analysis</h1>
+        <form method="POST" class="mt-4">
+            <div class="mb-3">
+                <label for="ingredient1" class="form-label">Ingredient 1:</label>
+                <input type="text" class="form-control" id="ingredient1" name="ingredient1" required>
+            </div>
+            <div class="mb-3">
+                <label for="ingredient2" class="form-label">Ingredient 2:</label>
+                <input type="text" class="form-control" id="ingredient2" name="ingredient2" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Analyze</button>
+            <a href="/" class="btn btn-secondary">Home</a>
+        </form>
+        {% if error %}
+            <div class="alert alert-danger mt-3">{{ error }}</div>
+        {% endif %}
+        {% if results %}
+            <h2 class="mt-5">Results</h2>
+            <table class="table table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>Ingredient 1</th>
+                        <th>Ingredient 2</th>
+                        <th>Binding Affinity</th>
+                        <th>Interaction</th>
+                        <th>Remarks</th>
+                        <th>Individual Effects</th>
+                        <th>Synergy Effects</th>
+                        <th>PubMed IDs & Titles (1)</th>
+                        <th>PubMed IDs & Titles (2)</th>
+                        <th>Synergy PubMed IDs & Titles</th>
+                        <th>CADD Analytics Image (1)</th>
+                        <th>CADD Analytics Image (2)</th>
+                        <th>Synergy Image</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in results %}
+                    <tr>
+                        <td>{{ result["Ingredient 1"] }}</td>
+                        <td>{{ result["Ingredient 2"] }}</td>
+                        <td>{{ result["Binding Affinity"] }}</td>
+                        <td>{{ result["Interaction"] }}</td>
+                        <td>{{ result["Remarks"] }}</td>
+                        <td>{{ result["Individual Effects"] }}</td>
+                        <td>{{ result["Synergy Effects"] }}</td>
+                        <td>
+                            {% for pubmed in result["PubMed Data 1"] %}
+                                <p><strong>{{ pubmed["PubMed ID"] }}</strong>: {{ pubmed["Title"] }}</p>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for pubmed in result["PubMed Data 2"] %}
+                                <p><strong>{{ pubmed["PubMed ID"] }}</strong>: {{ pubmed["Title"] }}</p>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for pubmed in result["Synergy PubMed Data"] %}
+                                <p><strong>{{ pubmed["PubMed ID"] }}</strong>: {{ pubmed["Title"] }}</p>
+                            {% endfor %}
+                        </td>
+                        <td><img src="{{ result["CADD Analytics Image 1"] }}" alt="CADD Image 1" class="img-fluid" style="max-width: 100px;"></td>
+                        <td><img src="{{ result["CADD Analytics Image 2"] }}" alt="CADD Image 2" class="img-fluid" style="max-width: 100px;"></td>
+                        <td><img src="{{ result["Synergy Image"] }}" alt="Synergy Image" class="img-fluid" style="max-width: 100px;"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="/download/synergy_results.xlsx" class="btn btn-success mt-3">Download Results</a>
+        {% endif %}
+    </div>
+</body>
+</html>
